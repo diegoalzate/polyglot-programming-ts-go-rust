@@ -1,4 +1,4 @@
-package opts
+package projector
 
 import "github.com/hellflame/argparse"
 
