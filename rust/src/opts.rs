@@ -5,7 +5,7 @@ use clap::Parser;
 #[derive(Debug)]
 #[derive(Parser)]
 #[clap()]
-pub struct Opts {
+pub struct ProjectorOpts {
     #[clap(default_value = "")]    
     pub args: Vec<String>,
     #[clap(short = 'c', long = "config")]

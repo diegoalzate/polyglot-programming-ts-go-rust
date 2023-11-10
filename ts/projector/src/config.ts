@@ -43,8 +43,8 @@ function getOperation(opts: ProjectorOptions): Operation {
     return Operation.Add;
   }
 
-  if (opts.arguments[0] === "print") {
-    return Operation.Print;
+  if (opts.arguments[0] === "remove") {
+    return Operation.Remove;
   }
 
   return Operation.Print;
@@ -58,7 +58,7 @@ function getArgs(opts: ProjectorOptions): string[] {
   const operation = getOperation(opts);
 
   if (operation === Operation.Add) {
-    if (opts.arguments.length > 3) {
+    if (opts.arguments.length !== 3) {
       throw new Error(
         `add expects 2 arguments and received ${opts.arguments.length - 1}`
       );
@@ -68,7 +68,7 @@ function getArgs(opts: ProjectorOptions): string[] {
   }
 
   if (operation === Operation.Print) {
-    if (opts.arguments.length > 2) {
+    if (opts.arguments.length !== 2) {
       throw new Error(
         `print expects 1 argument and received ${opts.arguments.length - 1}`
       );
@@ -77,7 +77,7 @@ function getArgs(opts: ProjectorOptions): string[] {
     return [opts.arguments[1]];
   }
 
-  if (opts.arguments.length > 2) {
+  if (opts.arguments.length !== 2) {
     throw new Error(
       `remove expects 1 argument and received ${opts.arguments.length - 1}`
     );
