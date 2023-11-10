@@ -1,10 +1,12 @@
 use clap::Parser;
+use polyglot::config::ProjectorConfig;
+use polyglot::opts::ProjectorOpts;
 
-fn main() {
-    let opts = polyglot::opts::ProjectorOpts::parse();
-    print!("{:?}", opts);
+use anyhow::{Result, Ok};
 
-    let config = polyglot::config::get_projector_config(opts);
-    print!("{:?}", config.expect(""));
+fn main() -> Result<()>{
+    let config: ProjectorConfig = ProjectorOpts::parse().try_into()?;
+    print!("{:?}", config);
 
+    return Ok(())
 }

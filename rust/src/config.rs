@@ -18,6 +18,18 @@ pub struct ProjectorConfig {
     pub operation: Operation
 }
 
+impl TryFrom<ProjectorOpts> for ProjectorConfig {
+    type Error = Error;
+
+    fn try_from(opts: ProjectorOpts) -> Result<Self, Self::Error> {
+        return Ok(ProjectorConfig {
+            operation: opts.args.try_into()?,
+            config: get_config(opts.config),
+            pwd: get_pwd(opts.pwd)
+        })   
+    }
+}
+
 impl TryFrom<Vec<String>> for Operation {
     type Error = Error;    
     
@@ -81,10 +93,3 @@ fn get_config(config: Option<PathBuf>) -> Result<PathBuf> {
     return Ok(config_dir)
  }
 
-pub fn get_projector_config(opts: ProjectorOpts) -> Result<ProjectorConfig> {
-    return Ok(ProjectorConfig {
-        operation: opts.args.try_into()?,
-        config: get_config(opts.config),
-        pwd: get_pwd(opts.pwd)
-    })
-}
