@@ -15,10 +15,10 @@ const (
 )
 
 type ProjectorConfig struct {
-	pwd string
-	config string
-	operation Operation
-	args []string
+	Pwd string
+	Config string
+	Operation Operation
+	Args []string
 }
 
 
@@ -81,8 +81,8 @@ func getArgs(opts *ProjectorOpts) ([]string, error) {
 	
 
 	// assume print
-	if (len(opts.Arguments) != 2) {
-		return nil, fmt.Errorf("add expects 2 arguments but received %v", len(opts.Arguments) - 1)
+	if (len(opts.Arguments) != 2 && len(opts.Arguments) != 1) {
+		return nil, fmt.Errorf("print expects 1 or 0 arguments but received %v", len(opts.Arguments) - 1)
 	}
 
 	return opts.Arguments[1:], nil
@@ -108,8 +108,8 @@ func Config(opts *ProjectorOpts) (*ProjectorConfig, error) {
 	}
 
 	return &ProjectorConfig{
-		pwd: pwd,
-		config: config,
-		operation: getOperation(opts),
-		args: args,
+		Pwd: pwd,
+		Config: config,
+		Operation: getOperation(opts),
+		Args: args,
 	}, nil }
