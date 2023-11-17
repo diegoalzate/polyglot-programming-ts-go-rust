@@ -1,4 +1,4 @@
-import path from "path";
+import * as path from "path";
 import { ProjectorOptions } from "./opts";
 
 export enum Operation {
@@ -35,15 +35,11 @@ function getConfig(opts: ProjectorOptions): string {
 }
 
 function getOperation(opts: ProjectorOptions): Operation {
-  if (!opts.arguments?.[0]) {
-    throw new Error("expect operation add/print/remove");
-  }
-
-  if (opts.arguments[0] === "add") {
+  if (opts.arguments?.[0] === "add") {
     return Operation.Add;
   }
 
-  if (opts.arguments[0] === "remove") {
+  if (opts.arguments?.[0] === "remove") {
     return Operation.Remove;
   }
 
