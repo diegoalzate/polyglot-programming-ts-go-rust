@@ -3,7 +3,7 @@ use anyhow::{Result, Error, Ok, anyhow};
 
 use crate::opts::ProjectorOpts;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Operation {
     Print(Option<String>),
     Add((String, String)),
@@ -93,3 +93,58 @@ fn get_config(config: Option<PathBuf>) -> Result<PathBuf> {
     return Ok(config_dir)
  }
 
+
+ #[cfg(test)]
+mod test {
+    use anyhow::{Result, Ok};
+
+    use crate::{opts::ProjectorOpts, config::Operation};
+
+    use super::ProjectorConfig;
+
+
+    #[test]
+    fn test_print() -> Result<()> {
+        let opts = ProjectorOpts{
+            args: vec![],
+            config: None,
+            pwd: None
+        };
+
+        let cli: ProjectorConfig = opts.try_into()?;
+
+        assert_eq!(cli.operation, Operation::Print(None));
+
+        return Ok(())
+    }
+
+    #[test]
+    fn test_add() -> Result<()> {
+        let opts = ProjectorOpts{
+            args: vec!["add".to_string(), "key".to_string(), "value".to_string()],
+            config: None,
+            pwd: None
+        };
+        
+        let config: ProjectorConfig = opts.try_into()?;
+
+        assert_eq!(config.operation, Operation::Add(("key".to_string(), "value".to_string())));
+
+        return Ok(())
+    }
+
+    #[test]
+    fn test_remove() -> Result<()> {
+        let opts = ProjectorOpts{
+            args: vec!["remove".to_string(), "key".to_string()],
+            config: None,
+            pwd: None
+        };
+        
+        let config: ProjectorConfig = opts.try_into()?;
+
+        assert_eq!(config.operation, Operation::Remove("key".to_string()));
+
+        return Ok(())
+    }
+}
