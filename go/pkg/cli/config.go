@@ -12,6 +12,7 @@ const (
 	Add Operation = iota
 	Remove
 	Print
+	PrintAll
 )
 
 type ProjectorConfig struct {
@@ -46,7 +47,7 @@ func getConfig(opts *ProjectorOpts) (string, error) {
 
 func getOperation(opts *ProjectorOpts) Operation {
 	if (len(opts.Arguments) == 0) {
-		return Print
+		return PrintAll
 	}
 
 	if (opts.Arguments[0] == "add") {
@@ -79,11 +80,15 @@ func getArgs(opts *ProjectorOpts) ([]string, error) {
 		return opts.Arguments[1:], nil
 	}
 	
-
-	// assume print
-	if (len(opts.Arguments) != 2 && len(opts.Arguments) != 1) {
-		return nil, fmt.Errorf("print expects 1 or 0 arguments but received %v", len(opts.Arguments) - 1)
+	if (operation == PrintAll) {
+		return []string{}, nil
 	}
+
+		// assume print
+	if (len(opts.Arguments) != 2) {
+		return nil, fmt.Errorf("remove expects 1 argument but received %v", len(opts.Arguments) - 1)
+	}
+
 
 	return opts.Arguments[1:], nil
 }
